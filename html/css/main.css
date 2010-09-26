@@ -1,0 +1,81 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin:0;padding:0;border:0;outline:0;font-size:100%;font-family:inherit; }
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    color: #333333;
+    background-color: #FFF;
+}
+
+input, textarea {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+header, hgroup, section, footer, aside, nav, article, figure {
+    display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+a {
+    color: #447234;
+    text-decoration: none;        
+}
+a:hover {
+    text-decoration: underline;        
+}
+
+img {
+    border: 0;
+}      
+
+/*
+Wrapper
+*/
+
+/*
+Header
+*/
+
+/*
+Content
+*/    
+
+/*
+Footer
+*/   
+  
+/* MISC */
+.clear {
+    clear: both;
+} 
+
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+
+.center {
+    text-align: center;
+    display: block;
+}
+
+.rounded_small {
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}   
+.rounded_medium {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+} 
+.rounded_large {
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+} 
