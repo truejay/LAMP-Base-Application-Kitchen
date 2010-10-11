@@ -61,6 +61,14 @@ abstract class BaseUserProfiles extends Doctrine_MyRecord
              'notnull' => false,
              'autoincrement' => false,
              ));
+        $this->hasColumn('dob', 'timestamp', null, array(
+             'type' => 'timestamp',
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
     }
 
     public function setUp()
