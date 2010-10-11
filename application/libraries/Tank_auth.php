@@ -182,25 +182,28 @@ class Tank_auth
 	 * @param	bool
 	 * @return	array
 	 */
-	function create_user($username, $email, $password, $email_activation, $fb_user_id = NULL, $user_level = 0)
+	function create_user($user, $email_activation, $user_level = 0)
 	{
-		if ((strlen($username) > 0) AND !Doctrine_Core::getTable('Users')->is_username_available($username) AND !$fb_user_id) {
+		if ((strlen($user['username']) > 0) AND !Doctrine_Core::getTable('Users')->is_username_available($user['username']) AND !$fb_user_id) {
 			$this->error = array('username' => 'auth_username_in_use');
 
-		} elseif (!Doctrine_Core::getTable('Users')->is_email_available($email) AND !$fb_user_id) {
+		} elseif (!Doctrine_Core::getTable('Users')->is_email_available($user['email']) AND !$fb_user_id) {
 			$this->error = array('email' => 'auth_email_in_use');
 
 		} else {
 			// Hash password using phpass
 			$hasher = new PasswordHash(PHPASS_HASH_STRENGTH, PHPASS_HASH_PORTABLE);
-			$hashed_password = $hasher->HashPassword($password);
+			$hashed_password = $hasher->HashPassword($user['password']);
 
 			$data = array(
-				'username'	        => $username,
+				'username'	        => $user['first_name'],
+                'first_name'        => $user['first_name'],
+                'last_name'         => $user['last_name'],
 				'password'	        => $hashed_password,
-				'email'		        => $email,
+				'email'		        => $user['email'],
+                'gender'            => $user['gender'],
+                'dob'               => $user['dob'],
 				'last_ip'	        => $this->ci->input->ip_address(),
-                'fb_user_id'        => $fb_user_id,
                 'user_level'        => $user_level
 			);
 
@@ -209,8 +212,19 @@ class Tank_auth
 			}
 			if (!is_null($res = Doctrine_Core::getTable('Users')->create_user($data, !$email_activation))) {
 				$data['users_id'] = $res['users_id'];
-				$data['password'] = $password;
+				$data['password'] = $user['password'];
 				unset($data['last_ip']);
+                
+                if (!$email_activation)
+                {
+                    $this->ci->session->set_userdata(array(
+                        'users_id'      => $data['users_id'],
+                        'user_level'    => $data['user_level'],
+                        'username'      => $data['username'],
+                        'status'        => STATUS_ACTIVATED
+                    ));
+                }
+                
 				return $data;
 			}
 		}
@@ -598,7 +612,7 @@ class Tank_auth
 								'users_id'	    => $user->id,
                                 'user_level'    => $user->user_level,
 								'username'	    => $user->username,
-								'status'	    => STATUS_ACTIVATED,
+								'status'	    => STATUS_ACTIVATED
 						));
 
 						// Renew users cookie to prevent it from expiring
