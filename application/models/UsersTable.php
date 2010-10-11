@@ -163,7 +163,7 @@ class UsersTable extends Doctrine_MyTable
         $u->save();
         
         $users_id = $u->id;
-        if ($activated)    $this->create_profile($users_id);
+        if ($activated)    $this->create_profile($users_id, $data);
         return array('users_id' => $users_id);
 
         /*
@@ -597,10 +597,19 @@ class UsersTable extends Doctrine_MyTable
      * @param    int
      * @return    bool
      */
-    private function create_profile($user_id)
+    private function create_profile($user_id, $data = NULL)
     {
         $up = new UserProfiles();
-        $up->users_id = $user_id;
+        $up->users_id = $user_id;     
+        
+        if ($data)
+        {
+            $up->dob = $data['dob'];
+            $up->first_name = $data['first_name'];
+            $up->last_name = $data['last_name'];
+            $up->gender = $data['gender'];
+        }
+                    
         if ($up->isValid())
         {
             $up->save();
