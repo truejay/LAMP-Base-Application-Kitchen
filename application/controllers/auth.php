@@ -72,7 +72,7 @@ class Auth extends MY_Controller
 						redirect('/auth/send_again/');
 
 					} else {													// fail
-						foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
+						foreach ($errors as $k => $v)	$data['errors'][$k] = '<div class="form_message rounded_medium">' . $this->lang->line($v) . '</div>';
 					}
 				}
 			}
@@ -131,7 +131,14 @@ class Auth extends MY_Controller
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
 			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
-
+            $this->form_validation->set_rules('first_name', 'First name', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('last_name', 'Last name', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('gender', 'Gender', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('dob_m', 'Month', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('dob_d', 'Day', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('dob_y', 'Year', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('dob', 'Date of birth', 'trim|xss_clean|callback__check_dob');
+            
 			$captcha_registration	= $this->config->item('captcha_registration', 'tank_auth');
 			$use_recaptcha			= $this->config->item('use_recaptcha', 'tank_auth');
 			if ($captcha_registration) {
@@ -142,18 +149,25 @@ class Auth extends MY_Controller
 				}
 			}
 			$data['errors'] = array();
-
+            $data['user'] = array();
+            
 			$email_activation = $this->config->item('email_activation', 'tank_auth');
 
 			if ($this->form_validation->run()) {								// validation ok
+                $data['user']['username'] = $use_username ? $this->form_validation->set_value('username') : '';
+                $data['user']['first_name'] = $this->form_validation->set_value('first_name');
+                $data['user']['last_name'] = $this->form_validation->set_value('last_name');
+                $data['user']['email'] = $this->form_validation->set_value('email');
+                $data['user']['password'] = $this->form_validation->set_value('password');
+                $data['user']['dob'] = $this->form_validation->set_value('dob_y') . '-' . $this->form_validation->set_value('dob_m') . '-' . $this->form_validation->set_value('dob_d'); 
+                $data['user']['gender'] = $this->form_validation->set_value('gender');
+                
 				if (!is_null($data = $this->tank_auth->create_user(
-						$use_username ? $this->form_validation->set_value('username') : '',
-						$this->form_validation->set_value('email'),
-						$this->form_validation->set_value('password'),
+						$data['user'],
 						$email_activation))) {									// success
 
 					$data['site_name'] = $this->config->item('website_name', 'tank_auth');
-
+                    
 					if ($email_activation) {									// send "activate" email
 						$data['activation_period'] = $this->config->item('email_activation_expire', 'tank_auth') / 3600;
 
@@ -171,12 +185,12 @@ class Auth extends MY_Controller
 						}
 						unset($data['password']); // Clear password (just for any case)
 
-						$this->_show_message($this->lang->line('auth_message_registration_completed_2').' '.anchor('/auth/login/', 'Login'));
+						redirect();
 						return;
 					}
 				} else {
 					$errors = $this->tank_auth->get_error_message();
-					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
+					foreach ($errors as $k => $v)	$data['errors'][$k] = '<div class="form_message rounded_medium">' . $this->lang->line($v) . '</div>';
 				}
 			}
 			if ($captcha_registration) {
@@ -521,14 +535,11 @@ class Auth extends MY_Controller
 	function _send_email($type, $email, &$data)
 	{
 		$this->load->library('email');
-        $this->email->set_newline("\r\n");
-		$this->email->from($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
-		$this->email->reply_to($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
-		$this->email->to($email);
-		$this->email->subject(sprintf($this->lang->line('auth_subject_'.$type), $this->config->item('website_name', 'tank_auth')));
-		$this->email->message($this->load->view('email/'.$type.'-html', $data, TRUE));
-		$this->email->set_alt_message($this->load->view('email/'.$type.'-txt', $data, TRUE));
-		$this->email->send();
+
+		$subject = sprintf($this->lang->line('auth_subject_'.$type), $this->config->item('website_name', 'tank_auth'));
+		$message = $this->load->view('email/'.$type.'-html', $data, TRUE);
+
+		$this->email->send_email($email, $subject, $message);
 	}
 
 	/**
@@ -626,6 +637,20 @@ class Auth extends MY_Controller
 		return TRUE;
 	}
 
+    function _check_dob()
+    {
+        $dob_m = $this->input->post('dob_m');
+        $dob_d = $this->input->post('dob_d');
+        $dob_y = $this->input->post('dob_y');
+        
+        if ($dob_m && $dob_d && $dob_y)
+            return TRUE;
+        else
+        {
+            $this->form_validation->set_message('_check_dob', '%s is required.');
+            return FALSE;
+        }
+    }
 }
 
 /* End of file auth.php */
