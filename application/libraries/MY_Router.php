@@ -86,7 +86,7 @@ class MY_Router extends CI_Router
             {
                 $this->class = $this->error_controller;
                 $this->method = $this->error_method_404;
-                include(APPPATH.'controllers/'.$this->fetch_directory().$this->error_controller.EXT);
+                include(APPPATH.'controllers/'.$this->error_controller.EXT);
             }
         }
     }    
