@@ -38,7 +38,7 @@ else
 | Database
 |--------------------------------------------------------------------------
 */
-$config['master_hostname'] = $_ENV{'DATABASE_SERVER'};
+$config['master_hostname'] = ''; // FILL IN REQUIRED
 $config['master_username'] = ''; // FILL IN REQUIRED 
 $config['master_password'] = ''; // FILL IN REQUIRED 
 $config['master_database'] = ''; // FILL IN REQUIRED 
@@ -48,10 +48,10 @@ $config['slaves'] = array();
 /*
 // Uncomment if any
 $config['slaves'][] = array(
-    'hostname' => $_ENV{'DATABASE_SERVER'},
-    'username' => 'db106144',
-    'password' => 'JayOhmt1',
-    'database' => 'db106144_main'
+    'hostname' => '';
+    'username' => '',
+    'password' => '',
+    'database' => ''
 );
 */
 
@@ -91,7 +91,7 @@ $config['tmp_dir'] = '';
 */
 $config['email_protocol'] = 'smtp';
 $config['email_smtp_host'] = ''; // FILL IN REQUIRED 
-$config['email_smtp_port'] = '465';
+$config['email_smtp_port'] = ''; // FILL IN REQUIRED
 $config['email_smtp_timeout'] = '7';
 $config['email_smtp_user'] = ''; // FILL IN REQUIRED 
 $config['email_smtp_pass'] = ''; // FILL IN REQUIRED 
