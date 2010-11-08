@@ -46,6 +46,5 @@ abstract class BaseLoginAttempts extends Doctrine_MyRecord
     public function setUp()
     {
         parent::setUp();
-        
     }
 }
