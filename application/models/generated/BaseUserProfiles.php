@@ -42,6 +42,15 @@ abstract class BaseUserProfiles extends Doctrine_MyRecord
              'notnull' => false,
              'autoincrement' => false,
              ));
+        $this->hasColumn('picture', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
         $this->hasColumn('location', 'string', 50, array(
              'type' => 'string',
              'length' => 50,
