@@ -21,6 +21,7 @@ abstract class BaseUserAutologin extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => false,
              'primary' => true,
+             'notnull' => true,
              'autoincrement' => false,
              ));
         $this->hasColumn('user_agent', 'string', 150, array(
@@ -29,7 +30,6 @@ abstract class BaseUserAutologin extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
              ));
@@ -39,7 +39,6 @@ abstract class BaseUserAutologin extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'default' => '',
              'notnull' => true,
              'autoincrement' => false,
              ));
