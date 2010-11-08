@@ -17,12 +17,12 @@
     # Enforce www
     # If you have subdomains, you can add them to 
     # the list using the "|" (OR) regex operator
-    #RewriteCond %{HTTP_HOST} !^(www|sexyhealthcare) [NC]
-    #RewriteRule ^(.*)$ http://www.sexyhealthcare.com/$1 [L,R=301]
+    #RewriteCond %{HTTP_HOST} !^(www|domain) [NC]
+    #RewriteRule ^(.*)$ http://www.domain.com/$1 [L,R=301]
  
     # Enforce NO www
     RewriteCond %{HTTP_HOST} ^www [NC]
-    RewriteRule ^(.*)$ http://sexyhealthcare.com/$1 [L,R=301]
+    RewriteRule ^(.*)$ http://domain.com/$1 [L,R=301]
  
     ###
  
@@ -48,4 +48,3 @@
     ErrorDocument 404 /index.php
  
 </IfModule>
-AddHandler php5-script .php
