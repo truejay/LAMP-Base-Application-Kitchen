@@ -32,7 +32,7 @@ CREATE TABLE `login_attempts` (
   `login` varchar(50) COLLATE utf8_bin NOT NULL,
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -42,11 +42,13 @@ CREATE TABLE `login_attempts` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fb_user_id` bigint(20) unsigned DEFAULT NULL,
   `username` varchar(50) COLLATE utf8_bin NOT NULL,
   `password` varchar(255) COLLATE utf8_bin NOT NULL,
   `email` varchar(100) COLLATE utf8_bin NOT NULL,
   `activated` tinyint(1) NOT NULL DEFAULT '1',
   `user_level` tinyint(1) NOT NULL DEFAULT '0',
+  `user_activity` tinyint(1) NOT NULL DEFAULT '1',
   `banned` tinyint(1) NOT NULL DEFAULT '0',
   `ban_reason` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `new_password_key` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -54,11 +56,26 @@ CREATE TABLE `users` (
   `new_email` varchar(100) COLLATE utf8_bin DEFAULT NULL,
   `new_email_key` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `last_ip` varchar(40) COLLATE utf8_bin NOT NULL,
-  `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_login` datetime NOT NULL,
+  `created` datetime NOT NULL,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=71 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=558 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_activities`
+--
+
+CREATE TABLE `user_activities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `users_id` int(11) NOT NULL,
+  `activity` text COLLATE utf8_unicode_ci NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `users_id` (`users_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8558 ;
 
 -- --------------------------------------------------------
 
@@ -68,7 +85,7 @@ CREATE TABLE `users` (
 
 CREATE TABLE `user_autologin` (
   `key_id` char(32) COLLATE utf8_bin NOT NULL,
-  `users_id` int(11) NOT NULL DEFAULT '0',
+  `users_id` int(11) NOT NULL,
   `user_agent` varchar(150) COLLATE utf8_bin NOT NULL,
   `last_ip` varchar(40) COLLATE utf8_bin NOT NULL,
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -87,7 +104,8 @@ CREATE TABLE `user_profiles` (
   `first_name` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `last_name` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `picture` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `location` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `gender` varchar(10) COLLATE utf8_bin DEFAULT NULL,
-  `dob` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=68 ;
+  PRIMARY KEY (`id`),
+  KEY `users_id` (`users_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=554 ;
