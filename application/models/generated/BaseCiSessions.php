@@ -13,6 +13,8 @@ abstract class BaseCiSessions extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => false,
              'primary' => true,
+             'default' => 0,
+             'notnull' => true,
              'autoincrement' => false,
              ));
         $this->hasColumn('ip_address', 'string', 16, array(
@@ -21,7 +23,7 @@ abstract class BaseCiSessions extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'default' => '0',
+             'default' => 0,
              'notnull' => true,
              'autoincrement' => false,
              ));
@@ -40,7 +42,7 @@ abstract class BaseCiSessions extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => true,
              'primary' => false,
-             'default' => '0',
+             'default' => 0,
              'notnull' => true,
              'autoincrement' => false,
              ));
@@ -57,6 +59,5 @@ abstract class BaseCiSessions extends Doctrine_MyRecord
     public function setUp()
     {
         parent::setUp();
-        
     }
 }
