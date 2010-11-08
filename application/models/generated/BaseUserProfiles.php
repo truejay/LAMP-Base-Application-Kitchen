@@ -1,53 +1,63 @@
 <?php
 /**
- * BaseUserAutologin
+ * BaseUserProfile
  */
-abstract class BaseUserAutologin extends Doctrine_MyRecord
+abstract class BaseUserProfiles extends Doctrine_MyRecord
 {
     public function setTableDefinition()
     {
-        $this->setTableName('user_autologin');
-        $this->hasColumn('key_id', 'string', 32, array(
-             'type' => 'string',
-             'length' => 32,
-             'fixed' => true,
+        $this->setTableName('user_profiles');
+        $this->hasColumn('id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
              'unsigned' => false,
              'primary' => true,
-             'autoincrement' => false,
+             'autoincrement' => true,
              ));
         $this->hasColumn('users_id', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,
              'unsigned' => false,
-             'primary' => true,
+             'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
              ));
-        $this->hasColumn('user_agent', 'string', 150, array(
+        $this->hasColumn('first_name', 'string', 50, array(
              'type' => 'string',
-             'length' => 150,
+             'length' => 50,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'notnull' => true,
+             'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('last_ip', 'string', 40, array(
+        $this->hasColumn('last_name', 'string', 50, array(
              'type' => 'string',
-             'length' => 40,
+             'length' => 50,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'notnull' => true,
+             'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('last_login', 'timestamp', null, array(
-             'type' => 'timestamp',
+        $this->hasColumn('location', 'string', 50, array(
+             'type' => 'string',
+             'length' => 50,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'notnull' => true,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('gender', 'string', 10, array(
+             'type' => 'string',
+             'length' => 10,
+             'fixed' => false,
+             'unsigned' => false,
+             'primary' => false,
+             'notnull' => false,
              'autoincrement' => false,
              ));
     }
