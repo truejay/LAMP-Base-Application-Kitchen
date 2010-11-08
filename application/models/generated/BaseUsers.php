@@ -15,6 +15,15 @@ abstract class BaseUsers extends Doctrine_MyRecord
              'primary' => true,
              'autoincrement' => true,
              ));
+        $this->hasColumn('fb_user_id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'fixed' => false,
+             'unsigned' => true,
+             'primary' => false,
+             'notnull' => false,
+             'autoincrement' => false,
+             ));
         $this->hasColumn('username', 'string', 50, array(
              'type' => 'string',
              'length' => 50,
@@ -134,7 +143,6 @@ abstract class BaseUsers extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'default' => '0000-00-00 00:00:00',
              'notnull' => true,
              'autoincrement' => false,
              ));
@@ -143,7 +151,6 @@ abstract class BaseUsers extends Doctrine_MyRecord
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
-             'default' => '0000-00-00 00:00:00',
              'notnull' => true,
              'autoincrement' => false,
              ));
