@@ -60,7 +60,8 @@ class Auth extends MY_Controller
 						$this->form_validation->set_value('remember'),
 						$data['login_by_username'],
 						$data['login_by_email'])) {								// success
-					redirect();
+					
+                    redirect('/profile/settings/options');
 
 				} else {
 					$errors = $this->tank_auth->get_error_message();
@@ -124,10 +125,6 @@ class Auth extends MY_Controller
 			return;
 
 		} else {
-			$use_username = $this->config->item('use_username', 'tank_auth');
-			if ($use_username) {
-				$this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length['.$this->config->item('username_min_length', 'tank_auth').']|max_length['.$this->config->item('username_max_length', 'tank_auth').']|alpha_dash');
-			}
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
 			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
@@ -154,7 +151,7 @@ class Auth extends MY_Controller
 			$email_activation = $this->config->item('email_activation', 'tank_auth');
 
 			if ($this->form_validation->run()) {								// validation ok
-                $data['user']['username'] = $use_username ? $this->form_validation->set_value('username') : '';
+                $data['user']['username'] = $this->form_validation->set_value('first_name');
                 $data['user']['first_name'] = $this->form_validation->set_value('first_name');
                 $data['user']['last_name'] = $this->form_validation->set_value('last_name');
                 $data['user']['email'] = $this->form_validation->set_value('email');
@@ -164,7 +161,8 @@ class Auth extends MY_Controller
                 
 				if (!is_null($data = $this->tank_auth->create_user(
 						$data['user'],
-						$email_activation))) {									// success
+						$email_activation,
+                        $this->config->item('use_username', 'tank_auth')))) {									// success
 
 					$data['site_name'] = $this->config->item('website_name', 'tank_auth');
                     
@@ -180,7 +178,6 @@ class Auth extends MY_Controller
 
 					} else {
 						if ($this->config->item('email_account_details', 'tank_auth')) {	// send "welcome" email
-
 							$this->_send_email('welcome', $data['email'], $data);
 						}
 						unset($data['password']); // Clear password (just for any case)
@@ -200,7 +197,6 @@ class Auth extends MY_Controller
 					$data['captcha_html'] = $this->_create_captcha();
 				}
 			}
-			$data['use_username'] = $use_username;
 			$data['captcha_registration'] = $captcha_registration;
 			$data['use_recaptcha'] = $use_recaptcha;
             
@@ -521,7 +517,10 @@ class Auth extends MY_Controller
 	 */
 	function _show_message($message)
 	{
-		$this->load->view('auth/general_message', array('message' => $message));
+        $data['message'] = $message;
+        $data['title'] = $this->config->item('website_name') . ' | Message';
+        $data['content'] = 'auth/general_message';
+        $this->load->view('layouts/default', $data);
 	}
 
 	/**
