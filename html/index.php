@@ -9,9 +9,9 @@
 | For more info visit:  http://www.php.net/error_reporting
 |
 */
-if ($_SERVER['HTTP_HOST'] != 'sexyhealthcare.com')
+if ($_SERVER['HTTP_HOST'] != 'domain.com')
 {
-	error_reporting(E_ALL);
+    error_reporting(E_ALL);
     ini_set('display_errors', '1');
 }
 else
