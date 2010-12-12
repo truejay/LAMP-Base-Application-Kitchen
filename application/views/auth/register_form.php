@@ -76,7 +76,7 @@ $submit = array(
 	</tr>
 	<tr>
 		<td><?= form_label('Gender', $gender['name']) ?></td>
-		<td><?= form_radio('gender', 'm', (set_value('gender') == 'm') ? TRUE : FALSE) ?> <?= form_label('Male') ?> <?= form_radio('gender', 'f', (set_value('gender') == 'f') ? TRUE : FALSE) ?> <?= form_label('Female') ?> <?= form_error($gender['name']) ?><?= isset($errors[$gender['name']])?$errors[$gender['name']]:'' ?></td>
+        <td><?= form_radio('gender', 'male', (set_value('gender') == 'male') ? TRUE : FALSE) ?> <?= form_label('Male') ?> <?= form_radio('gender', 'female', (set_value('gender') == 'female') ? TRUE : FALSE) ?> <?= form_label('Female') ?> <?= form_error($gender['name']) ?><?= isset($errors[$gender['name']])?$errors[$gender['name']]:'' ?></td>
 	</tr>
 
 	<? if ($captcha_registration) {

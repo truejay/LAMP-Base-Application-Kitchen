@@ -93,5 +93,7 @@ $submit = array(
 	</tr>
 </table>
 
+<a href="javascript://" class="bt fb_login fr" onclick="fb_login()"></a>
+
 <?= form_submit($submit) ?>
 <?= form_close() ?>

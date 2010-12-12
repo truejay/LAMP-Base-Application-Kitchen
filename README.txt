@@ -38,11 +38,16 @@ Codeigniter 1.7.2
   - View
     - Custom error 404 page
     - Header / Footer layout
- 
+    
 Doctrine ORM 1.2
   - Cache: APC (default - enabled), memcached
   - Master / multiple slaves configurable
  
+Updates:
+12/11/2010
+- Added Facebook connect 
+- Fixed minor bugs
+
 Requirements
 ------------
 

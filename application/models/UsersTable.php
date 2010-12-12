@@ -4,6 +4,26 @@
 class UsersTable extends Doctrine_MyTable
 {
     /**
+     * Get all user records
+     *
+     * @param    int
+     * @param    bool
+     * @return    object
+     */
+    public function get_all($order_by = NULL, $limit = NULL)
+    {
+        $q = $this->createQuery();
+        
+        if ($limit)
+            $q->limit($limit);
+            
+        if ($order_by)
+            $q->orderBy($order_by);
+            
+        return $q->execute();
+    }
+    
+    /**
      * Get user record by Id
      *
      * @param    int
@@ -29,6 +49,22 @@ class UsersTable extends Doctrine_MyTable
         */
     }
 
+    /**
+     * Get user record by FB Id
+     *
+     * @param    int
+     * @param    bool
+     * @return    object
+     */
+    public function get_user_by_fb_user_id($fb_user_id)
+    {
+        $q = $this->createQuery()
+            ->where('fb_user_id = ?', $fb_user_id);
+        
+        if ($q->count() === 1) return $q->fetchOne();
+        return NULL;
+    }
+    
     /**
      * Get user record by login (username or email)
      *
@@ -156,7 +192,7 @@ class UsersTable extends Doctrine_MyTable
     public function create_user($data, $activated = TRUE)
     {
         $data['created'] = date('Y-m-d H:i:s');
-        $data['activated'] = $activated ? 1 : 0;
+        $data['activated'] = $activated ? 0 : 1;
         
         $u = new Users();
         $u->fromArray($data);
@@ -164,7 +200,7 @@ class UsersTable extends Doctrine_MyTable
         
         $users_id = $u->id;
         $this->create_profile($users_id, $data);
-        return array('users_id' => $users_id);
+        return array('id' => $users_id);
 
         /*
         $data['created'] = date('Y-m-d H:i:s');

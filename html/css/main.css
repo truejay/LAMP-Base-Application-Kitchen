@@ -79,3 +79,11 @@ Footer
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 } 
+
+.fb_login {
+    padding: 0;
+    background: url(/images/bt_fb_connect.gif) no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 23px;
+    width: 169px;
+}
